@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070BB12322F28E5F00E65CFF /* duckling.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 070BB12222F28E5F00E65CFF /* duckling.jpg */; };
+		070BB12522F28E8000E65CFF /* Texturable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070BB12422F28E8000E65CFF /* Texturable.swift */; };
+		070BB12722F29D0800E65CFF /* shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 070BB12622F29D0800E65CFF /* shader.metal */; };
 		071D5E1A22F11D3D0097C60C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071D5E1922F11D3D0097C60C /* AppDelegate.swift */; };
 		071D5E1C22F11D3D0097C60C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071D5E1B22F11D3D0097C60C /* ViewController.swift */; };
 		071D5E1F22F11D3D0097C60C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 071D5E1D22F11D3D0097C60C /* Main.storyboard */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		070BB12222F28E5F00E65CFF /* duckling.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = duckling.jpg; sourceTree = "<group>"; };
+		070BB12422F28E8000E65CFF /* Texturable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texturable.swift; sourceTree = "<group>"; };
+		070BB12622F29D0800E65CFF /* shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = shader.metal; sourceTree = "<group>"; };
 		071D5E1622F11D3D0097C60C /* metal-01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "metal-01.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		071D5E1922F11D3D0097C60C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		071D5E1B22F11D3D0097C60C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +108,9 @@
 				071D5E1922F11D3D0097C60C /* AppDelegate.swift */,
 				071D5E1B22F11D3D0097C60C /* ViewController.swift */,
 				071D5E4722F129360097C60C /* Renderer.swift */,
+				070BB12622F29D0800E65CFF /* shader.metal */,
+				070BB12422F28E8000E65CFF /* Texturable.swift */,
+				070BB12222F28E5F00E65CFF /* duckling.jpg */,
 				071D5E1D22F11D3D0097C60C /* Main.storyboard */,
 				071D5E2022F11D3F0097C60C /* Assets.xcassets */,
 				071D5E2222F11D3F0097C60C /* LaunchScreen.storyboard */,
@@ -232,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				070BB12322F28E5F00E65CFF /* duckling.jpg in Resources */,
 				071D5E2422F11D3F0097C60C /* LaunchScreen.storyboard in Resources */,
 				071D5E2122F11D3F0097C60C /* Assets.xcassets in Resources */,
 				071D5E1F22F11D3D0097C60C /* Main.storyboard in Resources */,
@@ -262,6 +272,8 @@
 				071D5E1C22F11D3D0097C60C /* ViewController.swift in Sources */,
 				071D5E4822F129360097C60C /* Renderer.swift in Sources */,
 				071D5E1A22F11D3D0097C60C /* AppDelegate.swift in Sources */,
+				070BB12522F28E8000E65CFF /* Texturable.swift in Sources */,
+				070BB12722F29D0800E65CFF /* shader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
