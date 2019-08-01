@@ -29,6 +29,7 @@ class Renderer: NSObject {
         0, 1, 2,
         2, 3, 0
     ]
+    
     var texture: MTLTexture?
     var device: MTLDevice!
     var commandQueue: MTLCommandQueue!
@@ -51,13 +52,9 @@ class Renderer: NSObject {
         constants.animateBy = animateBy
     }
 
-    var sourceTexture: MTLTexture!
     var context: CIContext!
     var fragmentFunctionName: String = "fragment_shader"
     var vertexFunctionName: String = "vertex_shader"
-    
-    let filter = CIFilter(name: "CIGaussianBlur")!
-    let colorSpace = CGColorSpaceCreateDeviceRGB()
     
     init(device: MTLDevice) {
         super.init()
@@ -69,12 +66,14 @@ class Renderer: NSObject {
     
     init(device: MTLDevice, imageName: String) {
         super.init()
+        self.device = device
+        commandQueue = device.makeCommandQueue()
         if let texture = setTexture(device: device, imageName: imageName){
             self.texture = texture
             fragmentFunctionName = "textured_fragment"
         }
-        self.device = device
-        commandQueue = device.makeCommandQueue()
+        buildModel()
+        buildPipelineState()
     }
     
     private func buildModel() {
@@ -85,7 +84,7 @@ class Renderer: NSObject {
     private func buildPipelineState(){
         let library = device.makeDefaultLibrary()
         let vertexFunction = library?.makeFunction(name: "vertex_shader")
-        let fragmentFunction = library?.makeFunction(name: "fragment_shader")
+        let fragmentFunction = library?.makeFunction(name: "textured_fragment")
         
         let pipelineDescripter = MTLRenderPipelineDescriptor()
         pipelineDescripter.vertexFunction = vertexFunction
@@ -119,7 +118,24 @@ class Renderer: NSObject {
     }
 }
 
-extension Renderer: Texturable{}
+    private func setTexture(device: MTLDevice, imageName: String) -> MTLTexture? {
+        let textureLoader = MTKTextureLoader(device: device)
+        var texture: MTLTexture? = nil
+        let textureLoaderOptions : [MTKTextureLoader.Option: Any]
+        if #available(iOS 10.0, *) {
+            textureLoaderOptions = [MTKTextureLoader.Option.origin : "bottomLeft"]
+        } else {
+            textureLoaderOptions = [:]
+        }
+        if let textureURL = Bundle.main.url(forResource: imageName, withExtension: nil){
+            do{
+                texture = try textureLoader.newTexture(URL: textureURL, options: textureLoaderOptions)
+            }catch{
+                print("texture not created")
+            }
+        }
+        return texture
+    }
 
 extension Renderer: MTKViewDelegate{
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -138,10 +154,8 @@ extension Renderer: MTKViewDelegate{
         commandEncoder?.setRenderPipelineState(pipelineState)
         commandEncoder?.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder?.setVertexBytes(&constants, length: MemoryLayout<Constants>.stride, index: 1)
-        
-        commandEncoder?.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint16, indexBuffer: indexBuffer, indexBufferOffset: 0)
-        
         commandEncoder?.setFragmentTexture(texture, index: 0)
+        commandEncoder?.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint16, indexBuffer: indexBuffer, indexBufferOffset: 0)
         commandEncoder?.endEncoding()
         commandBuffer?.present(drawable)
         commandBuffer?.commit()

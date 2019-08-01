@@ -23,9 +23,9 @@ class ViewController: UIViewController {
             fatalError("device not created")
         }
         metalView.clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
-        renderer = Renderer(device: device)
+        renderer = Renderer(device: device, imageName: "duckling.jpg")
         metalView.delegate = renderer
-        metalView.enableSetNeedsDisplay = true
+        //metalView.enableSetNeedsDisplay = true
     }
 }
 
