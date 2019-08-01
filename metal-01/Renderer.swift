@@ -123,7 +123,7 @@ class Renderer: NSObject {
         var texture: MTLTexture? = nil
         let textureLoaderOptions : [MTKTextureLoader.Option: Any]
         if #available(iOS 10.0, *) {
-            textureLoaderOptions = [MTKTextureLoader.Option.origin : "bottomLeft"]
+            textureLoaderOptions = [MTKTextureLoader.Option.origin  : "bottomLeft"]
         } else {
             textureLoaderOptions = [:]
         }
