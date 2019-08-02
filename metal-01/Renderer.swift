@@ -56,6 +56,8 @@ class Renderer: NSObject {
     var fragmentFunctionName: String = "fragment_shader"
     var vertexFunctionName: String = "vertex_shader"
     
+    var samplerState: MTLSamplerState?
+    
     init(device: MTLDevice) {
         super.init()
         self.device = device
@@ -68,12 +70,20 @@ class Renderer: NSObject {
         super.init()
         self.device = device
         commandQueue = device.makeCommandQueue()
+        buildSamplerState()
         if let texture = setTexture(device: device, imageName: imageName){
             self.texture = texture
             fragmentFunctionName = "textured_fragment"
         }
         buildModel()
         buildPipelineState()
+    }
+    
+    private func buildSamplerState(){
+        let descriptor = MTLSamplerDescriptor()
+        descriptor.minFilter = .linear
+        descriptor.magFilter = .linear
+        samplerState = device.makeSamplerState(descriptor: descriptor)
     }
     
     private func buildModel() {
@@ -155,6 +165,7 @@ extension Renderer: MTKViewDelegate{
         commandEncoder?.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder?.setVertexBytes(&constants, length: MemoryLayout<Constants>.stride, index: 1)
         commandEncoder?.setFragmentTexture(texture, index: 0)
+        commandEncoder?.setFragmentSamplerState(samplerState, index: 0)
         commandEncoder?.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint16, indexBuffer: indexBuffer, indexBufferOffset: 0)
         commandEncoder?.endEncoding()
         commandBuffer?.present(drawable)
